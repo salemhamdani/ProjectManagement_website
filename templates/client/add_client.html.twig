@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block body %}
+    {{ parent() }}
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">{{ title }}</h1>
+            {% if (title=="Adding Client") %}
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a href="">Dashboard</a></li>
+                <li class="breadcrumb-item active">Add Client</li>
+            </ol>
+            {% endif %}
+            {{ form(form) }}
+
+        </div>
+    </main>
+{% endblock %}
