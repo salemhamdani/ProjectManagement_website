@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {% if editMode  %} Update {% else  %} Create  {% endif %}
+    {{ title }}
+{% endblock %}
+{% block body  %}
+    {{ parent() }}
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4"> {% if editMode  %} Update {% else  %} Create  {% endif %} {{ title }}</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active">{{ title }}</li>
+                </ol>
+            {{ form_start(form) }}
+            {{ form_rest(form) }}
+            <button class="btn btn-secondary" type="submit">{% if editMode  %} Save {% else  %} Create ! {% endif %}</button>
+            {{ form_end(form) }}
+        </div>
+    </main>
+{% endblock %}

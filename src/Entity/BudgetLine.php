@@ -27,7 +27,7 @@ class BudgetLine
     /**
      * @ORM\Column(type="float")
      */
-    private $pourcentage;
+    private $percentage;
 
     /**
      * @ORM\ManyToOne(targetEntity=Project::class, inversedBy="budgetlines")
@@ -36,7 +36,7 @@ class BudgetLine
     private $project;
 
     /**
-     * @ORM\OneToMany(targetEntity=Operation::class, mappedBy="budgetline", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Operation::class, mappedBy="budgetLine", orphanRemoval=true)
      */
     private $operations;
 
@@ -62,14 +62,14 @@ class BudgetLine
         return $this;
     }
 
-    public function getPourcentage(): ?float
+    public function getPercentage(): ?float
     {
-        return $this->pourcentage;
+        return $this->percentage;
     }
 
-    public function setPourcentage(float $pourcentage): self
+    public function setPercentage(float $percentage): self
     {
-        $this->pourcentage = $pourcentage;
+        $this->percentage = $percentage;
 
         return $this;
     }
@@ -98,7 +98,7 @@ class BudgetLine
     {
         if (!$this->operations->contains($operation)) {
             $this->operations[] = $operation;
-            $operation->setBudgetline($this);
+            $operation->setBudgetLine($this);
         }
 
         return $this;
@@ -108,11 +108,15 @@ class BudgetLine
     {
         if ($this->operations->removeElement($operation)) {
             // set the owning side to null (unless already changed)
-            if ($operation->getBudgetline() === $this) {
-                $operation->setBudgetline(null);
+            if ($operation->getBudgetLine() === $this) {
+                $operation->setBudgetLine(null);
             }
         }
 
         return $this;
+    }
+    public function __toString()
+    {
+        return $this->name;
     }
 }

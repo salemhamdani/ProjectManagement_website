@@ -35,14 +35,20 @@ class Project
     private $budget;
 
     /**
-     * @ORM\OneToMany(targetEntity=Activity::class, mappedBy="yes", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Activity::class, mappedBy="project", orphanRemoval=true)
      */
     private $activities;
 
     /**
-     * @ORM\OneToMany(targetEntity=BudgetLine::class, mappedBy="yes", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=BudgetLine::class, mappedBy="project", orphanRemoval=true)
      */
     private $budgetlines;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="projects")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $client;
 
     public function __construct()
     {
@@ -103,7 +109,7 @@ class Project
     {
         if (!$this->activities->contains($activity)) {
             $this->activities[] = $activity;
-            $activity->setYes($this);
+            $activity->setProject($this);
         }
 
         return $this;
@@ -113,8 +119,8 @@ class Project
     {
         if ($this->activities->removeElement($activity)) {
             // set the owning side to null (unless already changed)
-            if ($activity->getYes() === $this) {
-                $activity->setYes(null);
+            if ($activity->getProject() === $this) {
+                $activity->setProject(null);
             }
         }
 
@@ -133,7 +139,7 @@ class Project
     {
         if (!$this->budgetlines->contains($budgetline)) {
             $this->budgetlines[] = $budgetline;
-            $budgetline->setYes($this);
+            $budgetline->setProject($this);
         }
 
         return $this;
@@ -143,10 +149,26 @@ class Project
     {
         if ($this->budgetlines->removeElement($budgetline)) {
             // set the owning side to null (unless already changed)
-            if ($budgetline->getYes() === $this) {
-                $budgetline->setYes(null);
+            if ($budgetline->getProject() === $this) {
+                $budgetline->setProject(null);
             }
         }
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): self
+    {
+        $this->client = $client;
 
         return $this;
     }

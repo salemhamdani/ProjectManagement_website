@@ -32,7 +32,7 @@ class PaymentTranche
      * @ORM\ManyToOne(targetEntity=PaymentType::class, inversedBy="paymentTranches")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $paymenttype;
+    private $paymentType;
 
     public function getId(): ?int
     {
@@ -63,14 +63,14 @@ class PaymentTranche
         return $this;
     }
 
-    public function getPaymenttype(): ?PaymentType
+    public function getPaymentType(): ?PaymentType
     {
-        return $this->paymenttype;
+        return $this->paymentType;
     }
 
-    public function setPaymenttype(?PaymentType $paymenttype): self
+    public function setPaymentType(?PaymentType $paymentType): self
     {
-        $this->paymenttype = $paymenttype;
+        $this->paymentType = $paymentType;
 
         return $this;
     }

@@ -44,7 +44,7 @@ class SecurityController extends AbstractController
             $manager->flush();
             return $this->redirectToRoute('login');
         }
-        return $this->render('home/user/add_user.html.twig',[
+        return $this->render('user/add_user.html.twig',[
             'form'=>$form->createView(),
             'editMode'=>$user->getId()!==null,
             'title'=>"Sign Up "

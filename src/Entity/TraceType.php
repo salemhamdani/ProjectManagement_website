@@ -27,11 +27,11 @@ class TraceType
     /**
      * @ORM\OneToMany(targetEntity=PaymentTrace::class, mappedBy="traceType", orphanRemoval=true)
      */
-    private $paymenttrace;
+    private $paymentTrace;
 
     public function __construct()
     {
-        $this->paymenttrace = new ArrayCollection();
+        $this->paymentTrace = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -54,30 +54,34 @@ class TraceType
     /**
      * @return Collection|PaymentTrace[]
      */
-    public function getPaymenttrace(): Collection
+    public function getPaymentTrace(): Collection
     {
-        return $this->paymenttrace;
+        return $this->paymentTrace;
     }
 
-    public function addPaymenttrace(PaymentTrace $paymenttrace): self
+    public function addPaymentTrace(PaymentTrace $paymentTrace): self
     {
-        if (!$this->paymenttrace->contains($paymenttrace)) {
-            $this->paymenttrace[] = $paymenttrace;
-            $paymenttrace->setTraceType($this);
+        if (!$this->paymentTrace->contains($paymentTrace)) {
+            $this->paymentTrace[] = $paymentTrace;
+            $paymentTrace->setTraceType($this);
         }
 
         return $this;
     }
 
-    public function removePaymenttrace(PaymentTrace $paymenttrace): self
+    public function removePaymentTrace(PaymentTrace $paymentTrace): self
     {
-        if ($this->paymenttrace->removeElement($paymenttrace)) {
+        if ($this->paymentTrace->removeElement($paymentTrace)) {
             // set the owning side to null (unless already changed)
-            if ($paymenttrace->getTraceType() === $this) {
-                $paymenttrace->setTraceType(null);
+            if ($paymentTrace->getTraceType() === $this) {
+                $paymentTrace->setTraceType(null);
             }
         }
 
         return $this;
+    }
+    public function __toString()
+    {
+        return $this->name;
     }
 }

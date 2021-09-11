@@ -49,22 +49,22 @@ class Operation
      * @ORM\ManyToOne(targetEntity=BudgetLine::class, inversedBy="operations")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $budgetline;
+    private $budgetLine;
 
     /**
-     * @ORM\OneToMany(targetEntity=PaymentTranche::class, mappedBy="yes", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=PaymentTranche::class, mappedBy="operation", orphanRemoval=true)
      */
-    private $paymenttranche;
+    private $paymentTranche;
 
     /**
-     * @ORM\OneToMany(targetEntity=PaymentTrace::class, mappedBy="yes", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=PaymentTrace::class, mappedBy="operation", orphanRemoval=true)
      */
-    private $paymenttrace;
+    private $paymentTrace;
 
     public function __construct()
     {
-        $this->paymenttranche = new ArrayCollection();
-        $this->paymenttrace = new ArrayCollection();
+        $this->paymentTranche = new ArrayCollection();
+        $this->paymentTrace = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -132,14 +132,14 @@ class Operation
         return $this;
     }
 
-    public function getBudgetline(): ?BudgetLine
+    public function getBudgetLine(): ?BudgetLine
     {
-        return $this->budgetline;
+        return $this->budgetLine;
     }
 
-    public function setBudgetline(?BudgetLine $budgetline): self
+    public function setBudgetLine(?BudgetLine $budgetLine): self
     {
-        $this->budgetline = $budgetline;
+        $this->budgetLine = $budgetLine;
 
         return $this;
     }
@@ -147,27 +147,27 @@ class Operation
     /**
      * @return Collection|PaymentTranche[]
      */
-    public function getPaymenttranche(): Collection
+    public function getPaymentTranche(): Collection
     {
-        return $this->paymenttranche;
+        return $this->paymentTranche;
     }
 
-    public function addPaymenttranche(PaymentTranche $paymenttranche): self
+    public function addPaymentTranche(PaymentTranche $paymentTranche): self
     {
-        if (!$this->paymenttranche->contains($paymenttranche)) {
-            $this->paymenttranche[] = $paymenttranche;
-            $paymenttranche->setOperation($this);
+        if (!$this->paymentTranche->contains($paymentTranche)) {
+            $this->paymentTranche[] = $paymentTranche;
+            $paymentTranche->setOperation($this);
         }
 
         return $this;
     }
 
-    public function removePaymenttranche(PaymentTranche $paymenttranche): self
+    public function removePaymentTranche(PaymentTranche $paymentTranche): self
     {
-        if ($this->paymenttranche->removeElement($paymenttranche)) {
+        if ($this->paymentTranche->removeElement($paymentTranche)) {
             // set the owning side to null (unless already changed)
-            if ($paymenttranche->getOperation() === $this) {
-                $paymenttranche->setOperation(null);
+            if ($paymentTranche->getOperation() === $this) {
+                $paymentTranche->setOperation(null);
             }
         }
 
@@ -177,30 +177,35 @@ class Operation
     /**
      * @return Collection|PaymentTrace[]
      */
-    public function getPaymenttrace(): Collection
+    public function getPaymentTrace(): Collection
     {
-        return $this->paymenttrace;
+        return $this->paymentTrace;
     }
 
-    public function addPaymenttrace(PaymentTrace $paymenttrace): self
+    public function addPaymentTrace(PaymentTrace $paymentTrace): self
     {
-        if (!$this->paymenttrace->contains($paymenttrace)) {
-            $this->paymenttrace[] = $paymenttrace;
-            $paymenttrace->setOperation($this);
+        if (!$this->paymentTrace->contains($paymentTrace)) {
+            $this->paymentTrace[] = $paymentTrace;
+            $paymentTrace->setOperation($this);
         }
 
         return $this;
     }
 
-    public function removePaymenttrace(PaymentTrace $paymenttrace): self
+    public function removePaymentTrace(PaymentTrace $paymentTrace): self
     {
-        if ($this->paymenttrace->removeElement($paymenttrace)) {
+        if ($this->paymentTrace->removeElement($paymentTrace)) {
             // set the owning side to null (unless already changed)
-            if ($paymenttrace->getOperation() === $this) {
-                $paymenttrace->setOperation(null);
+            if ($paymentTrace->getOperation() === $this) {
+                $paymentTrace->setOperation(null);
             }
         }
 
         return $this;
     }
+    public function __toString()
+    {
+        return $this->name;
+    }
+
 }

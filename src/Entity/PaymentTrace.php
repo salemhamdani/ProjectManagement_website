@@ -34,6 +34,11 @@ class PaymentTrace
      */
     private $traceType;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $file;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,4 +79,22 @@ class PaymentTrace
 
         return $this;
     }
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    public function getFile(): ?string
+    {
+        return $this->file;
+    }
+
+    public function setFile(string $file): self
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+
 }
