@@ -20,7 +20,8 @@ class PaymentTraceType extends AbstractType
                 ],'required' => true])
             ->add('file',FileType::class,[
                 'label'=>'Upload PDF file',
-                'required' => false,
+                'required' => true,
+                'data_class' => null,
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',

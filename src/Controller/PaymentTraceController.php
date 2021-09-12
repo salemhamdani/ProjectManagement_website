@@ -37,7 +37,10 @@ class PaymentTraceController extends AbstractController
     {
         if(!$paymentTrace){
             $paymentTrace=new PaymentTrace();
+        }else {
+            $paymentTrace->setFile(new File($this->getParameter('traces_directory').'/'.$paymentTrace->getFile()));
         }
+
         $form=$this->createForm(PaymentTraceType::class,$paymentTrace);
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid()){
