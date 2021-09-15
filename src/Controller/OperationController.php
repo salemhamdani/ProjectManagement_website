@@ -56,10 +56,18 @@ class OperationController extends AbstractController
     /**
      * @Route("/delete/{id}", name="deleteOperation")
      */
-    public function delete_activity(EntityManagerInterface $manager,Operation $operation)
+    public function delete_operation(EntityManagerInterface $manager,Operation $operation)
     {
         $manager->remove($operation);
         $manager->flush();
         return $this->redirectToRoute('operations');
+    }
+    /**
+     * @Route ("/consult/{id}",name="consultOperation")
+     */
+    public function  consult_operation():Response{
+return $this->render('operation/consult.html.twig',[
+
+]);
     }
 }
