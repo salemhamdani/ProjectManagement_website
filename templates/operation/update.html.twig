@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Update Operation
+{% endblock %}
+{% block body %}
+    <br><br><br>
+    {{ form_start(form,{'attr': {'class':'form-validate-jquery', 'novalidate': 'novalidate'}}) }}
+    <div class="content">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <fieldset class="mb-3">
+                        <legend class="text-uppercase font-size-l font-weight-bold">{% if editMode  %} Update {% else  %} Create  {% endif %} {{ title}} </legend>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-2">Name :</label>
+                            <div class="col-lg-10">
+                                {{ form_widget(form.name, {'attr' : {'class': 'form-control', 'placeholder':'Nom'},'required':'true'})}}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-2">Date :</label>
+                            <div class="col-lg-10">
+                                {{ form_widget(form.date, {'attr' : {'class': 'form-control'},'required':'true'})}}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-2">Price :</label>
+                            <div class="col-lg-10">
+                                {{ form_widget(form.price, {'attr' : {'class': 'form-control', 'placeholder':'Enter The Price'} ,'required':'true'})}}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-2">Description :</label>
+                            <div class="col-lg-10">
+                                {{ form_widget(form.description, {'attr' : {'class': 'form-control', 'placeholder':'Enter The description'} ,'required':'true'})}}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-2">Activity :</label>
+                            <div class="col-lg-10">
+                                {{ form_widget(form.activity, {'attr' : {'class': 'form-control'} ,'required':'true'})}}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-2">BudgetLine :</label>
+                            <div class="col-lg-10">
+                                {{ form_widget(form.budgetLine, {'attr' : {'class': 'form-control'} ,'required':'true'})}}
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

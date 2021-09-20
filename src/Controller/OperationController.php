@@ -31,15 +31,9 @@ class OperationController extends AbstractController
         ]);
     }
     /**
-     * @Route("/create", name="createOperation")
      * @Route("/update/{id}", name="updateOperation")
      */
-    public function handle_operation(Request $request,EntityManagerInterface $manager,Operation $operation= null)
-    {
-        if(!$operation){
-            $operation=new Operation();
-        }
-
+    public function update_operation(EntityManagerInterface $manager,Operation $operation,Request $request){
         $form=$this->createForm(OperationType::class,$operation);
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid()){
@@ -47,7 +41,26 @@ class OperationController extends AbstractController
             $manager->flush();
             return $this->redirectToRoute("operations");
         }
-        return  $this->render('create.html.twig',[
+        return  $this->render('operation/update.html.twig',[
+            'title'=>"Operation",
+            'form'=>$form->createView(),
+            'editMode'=>$operation->getId() !==null
+        ]);
+    }
+    /**
+     * @Route("/create", name="createOperation")
+     */
+    public function create_operation(Request $request,EntityManagerInterface $manager)
+    {
+        $operation=new Operation();
+        $form=$this->createForm(OperationType::class,$operation);
+        $form->handleRequest($request);
+        if($form->isSubmitted()&&$form->isValid()){
+            $manager->persist($operation);
+            $manager->flush();
+            return $this->redirectToRoute("operations");
+        }
+        return  $this->render('operation/create.html.twig',[
             'title'=>"Operation",
             'form'=>$form->createView(),
             'editMode'=>$operation->getId() !==null

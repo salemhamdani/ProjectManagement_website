@@ -1,0 +1,168 @@
+{% extends 'base.html.twig' %}
+{% block js %}
+    {{ parent() }}
+<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.js" data-turbolinks-track="true"></script>
+<script type="text/javascript">
+    // add row
+    var $addReponseLink = $('<br><a href="#" class="add_reponse_link btn btn-secondary  "> Add Payment Tranche <i class="glyphicon glyphicon-plus"></i></a>');
+    var $newLinkLiExp = $('<span></span>').append($addReponseLink);
+    ///Add Reponse:
+    jQuery(document).ready(function () {
+        // Get the ul that holds the collection of sections
+        var $collectionHolder = $('div.reponses');
+        // add the "add a section" anchor and li to the sections ul
+        $collectionHolder.append($newLinkLiExp);
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        $collectionHolder.data('index', $collectionHolder.find(':input').length);
+        $addReponseLink.on('click', function (e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+            // add a new section form (see code block below)
+            addReponseForm($collectionHolder, $newLinkLiExp);
+            $("[type='checkbox']").bootstrapSwitch();
+        });
+        $('.multiselectCommun').multiselect({
+            buttonClass: 'btn fieldClass',
+            maxHeight: 200,
+            enableCaseInsensitiveFiltering: true,
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            nonSelectedText: 'Aucune sélection',
+            nSelectedText: 'sélectionnés',
+            allSelectedText: 'Tout est sélectionné',
+            selectAllText: 'Sélectionner tout',
+            filterPlaceholder: 'Rechercher ...',
+            templates: {
+                filter: '<li class="multiselect-item multiselect-filter"><i class="icon-search4"></i> <input class="form-control" type="text"></li>'
+            },
+            onChange: function() {
+                $.uniform.update();
+            },
+            onSelectAll: function() {
+                $.uniform.update();
+            }
+        });
+    });
+    /// Add Reponse Form
+    function addReponseForm($collectionHolder, $newLinkLiExp) {
+        // Get the data-prototype explained earlier
+        var prototype = $collectionHolder.data('prototype');
+
+        // get the new index
+        var index = $collectionHolder.data('index');
+        // Replace '$$name$$' in the prototype's HTML to
+        // instead be a number based on how many items we have
+        var newFormExp = prototype.replace(/__name__/g, index);
+        // increase the index with one for the next item
+        $collectionHolder.data('index', index + 1);
+        // Display the form in the page in an li, before the "Add a section" link li
+        var $newFormLiExp = $('<span></span>').append(newFormExp);
+        $newLinkLiExp.before($newFormLiExp);
+        $(".summernotetext").summernote();
+        // handle the removal, just for this example
+        $('.remove-reponse').click(function (e) {
+            e.preventDefault();
+            $(this).parent().remove();
+            return false;
+        });
+    }
+
+</script>
+{% endblock %}
+{% block title %}
+    {% if editMode  %} Update {% else  %} Create  {% endif %}
+    {{ title }}
+{% endblock %}
+{% block body  %}
+    <br><br><br>
+    {{ form_start(form,{'attr': {'class':'form-validate-jquery', 'novalidate': 'novalidate'}}) }}
+    <div class="content">
+     <div class="row">
+       <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <fieldset class="mb-3">
+                    <legend class="text-uppercase font-size-l font-weight-bold">{% if editMode  %} Update {% else  %} Create  {% endif %} {{ title}} </legend>
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-2">Name :</label>
+                        <div class="col-lg-10">
+                            {{ form_widget(form.name, {'attr' : {'class': 'form-control', 'placeholder':'Nom'},'required':'true'})}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-2">Date :</label>
+                        <div class="col-lg-10">
+                            {{ form_widget(form.date, {'attr' : {'class': 'form-control'},'required':'true'})}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-2">Price :</label>
+                        <div class="col-lg-10">
+                            {{ form_widget(form.price, {'attr' : {'class': 'form-control', 'placeholder':'Enter The Price'} ,'required':'true'})}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-2">Description :</label>
+                        <div class="col-lg-10">
+                            {{ form_widget(form.description, {'attr' : {'class': 'form-control', 'placeholder':'Enter The description'} ,'required':'true'})}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-2">Activity :</label>
+                        <div class="col-lg-10">
+                            {{ form_widget(form.activity, {'attr' : {'class': 'form-control'} ,'required':'true'})}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-2">BudgetLine :</label>
+                        <div class="col-lg-10">
+                            {{ form_widget(form.budgetLine, {'attr' : {'class': 'form-control'} ,'required':'true'})}}
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+       </div>
+     </div>
+        {% macro information_prototype(form) %}
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <fieldset class="mb-3">
+                            <legend class="text-uppercase font-size-sm font-weight-bold">Add PaymentTranche</legend>
+                            <div class="form-group row">
+                                <label class="col-form-label col-lg-2">Value :</label>
+                                <div class="col-lg-10">
+                                    {{ form_widget(form.value, {'attr' : {'class': 'form-control'}})}}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-form-label col-lg-2">PaymentType :</label>
+                                <div class="col-lg-10">
+                                    {{ form_widget(form.paymentType, {'attr' : {'class': 'form-control'}})}}
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+            {% endmacro %}
+            <div class="reponses"  data-prototype="{{ _self.information_prototype(form.paymentTranche.vars.prototype)|e }}">
+                {% for reponse in form.paymentTranche %}
+                    {{ _self.information_prototype(form) }}
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="btn btn-secondary" style="float:right;">Create <i class="icon-checkmark3 font-size-base mr-1"></i></button>
+
+
+            </div>
+
+
+
+    {{ form_end(form) }}
+{% endblock %}

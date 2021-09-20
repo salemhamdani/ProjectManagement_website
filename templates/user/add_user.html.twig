@@ -1,20 +1,94 @@
 {% extends 'base.html.twig' %}
 {% block title %}
-    {{ title }}
-{% endblock %}
-{% block body  %}
+    Add User
+{% endblock  %}
+{% block js %}
     {{ parent() }}
-    <main>
-        <div class="container-fluid px-4">
-            <h1 class="mt-4">{{ title }}</h1>
-            {% if (title=="Adding User") %}
-            <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                <li class="breadcrumb-item active">Add User</li>
-            </ol>
-            {% endif %}
-            {{ form(form) }}
+    <script src="{{asset('build/global_assets/js/plugins/forms/validation/validate.min.js')}}"></script>
+    <script src="{{asset('build/global_assets/js/plugins/forms/inputs/touchspin.min.js')}}"></script>
+    <script src="{{asset('build/global_assets/js/plugins/forms/styling/switch.min.js')}}"></script>
+    <script src="{{asset('build/global_assets/js/plugins/forms/styling/switchery.min.js')}}"></script>
+    <script src="{{asset('build/global_assets/js/demo_pages/form_validation.js')}}"></script>
+{% endblock %}
+{% block body %}
+    <br><br><br>
+    {{form_start(form, {'attr': {'class':'form-validate-jquery', 'novalidate': 'novalidate'}}) }}
+    <div class="content">
+        <div class="card">
+            <div class="card-body">
+                <fieldset class="mb-3">
+                    <legend class="text-uppercase font-size-l font-weight-bold">{{ title}} </legend>
 
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-2">Name :</label>
+                        <div class="col-lg-10">
+                            {{ form_widget(form.name, {'attr' : {'required':'required' , 'class': 'form-control', 'placeholder':'Enter User Name'}})}}
+                            <div class="form-error font-weight-semibold text-danger border-danger">
+                                {{ form_errors(form.name) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-2">E-mail :</label>
+                        <div class="col-lg-10">
+                            {{ form_widget(form.email, {'attr' : {'required':'required' , 'class': 'form-control', 'placeholder':'Enter user email'}})}}
+                            <div class="form-error font-weight-semibold text-danger border-danger">
+                                {{ form_errors(form.email) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-2">Password  :</label>
+                        <div class="col-lg-10">
+                            {{ form_widget(form.password, {'attr' : {'required':'required' , 'class': 'form-control', 'placeholder':'Enter User Password'}})}}
+                            <div class="form-error font-weight-semibold text-danger border-danger">
+                                {{ form_errors(form.password) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-2">Password Confirmation :</label>
+                        <div class="col-lg-10">
+                            {{ form_widget(form.confirm_password, {'attr' : {'required':'required' , 'class': 'form-control', 'placeholder':'Reanter Password'}})}}
+                            <div class="form-error font-weight-semibold text-danger border-danger">
+                                {{ form_errors(form.confirm_password) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-2">Address :</label>
+                        <div class="col-lg-10">
+                            {{ form_widget(form.address, {'attr' : { 'class': 'form-control', 'placeholder':'Enter user Address'}})}}
+                            <div class="form-error font-weight-semibold text-danger border-danger">
+                                {{ form_errors(form.address) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-2">Role :</label>
+                        <div class="col-lg-10">
+                            {{ form_widget(form.role, {'attr' : { 'class': 'form-control'}})}}
+                            <div class="form-error font-weight-semibold text-danger border-danger">
+                                {{ form_errors(form.role) }}
+                            </div>
+                        </div>
+                    </div>
+                   <div class="form-group row">
+                      <label class="col-form-label col-lg-2">Client :</label>
+                      <div class="col-lg-10">
+                        {{ form_widget(form.client)}}
+                       <div class="form-error font-weight-semibold text-danger border-danger">
+                        {{ form_errors(form.role) }}
+                        </div>
+                         </div>
+                        </div>
+
+                    <br>
+                    <button type="submit" class="btn btn-secondary" style="float:right;">Create Account <i class="icon-checkmark3 font-size-base mr-1"></i></button>
+                </fieldset>
+            </div>
         </div>
-    </main>
+    </div>
+
+    {{ form_end(form)}}
 {% endblock %}

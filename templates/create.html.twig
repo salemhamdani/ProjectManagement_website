@@ -4,18 +4,18 @@
     {{ title }}
 {% endblock %}
 {% block body  %}
-    {{ parent() }}
-    <main>
-        <div class="container-fluid px-4">
-            <h1 class="mt-4"> {% if editMode  %} Update {% else  %} Create  {% endif %} {{ title }}</h1>
-                <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                    <li class="breadcrumb-item active">{{ title }}</li>
-                </ol>
-            {{ form_start(form) }}
+    <br><br><br>
+            {{ form_start(form,{'attr': {'class':'form-validate-jquery', 'novalidate': 'novalidate'}}) }}
+    <div class="content">
+    <div class="card">
+    <div class="card-body">
+    <fieldset class="mb-3">
+    <legend class="text-uppercase font-size-l font-weight-bold">{% if editMode  %} Update {% else  %} Create  {% endif %} {{ title}} </legend>
             {{ form_rest(form) }}
-            <button class="btn btn-secondary" type="submit">{% if editMode  %} Save {% else  %} Create ! {% endif %}</button>
+        <button type="submit" class="btn btn-secondary" style="float:right;">{% if editMode  %} Save {% else  %} Create ! {% endif %}<i class="icon-checkmark3 font-size-base mr-1"></i></button>
+    </fieldset>
+    </div>
+    </div>
+    </div>
             {{ form_end(form) }}
-        </div>
-    </main>
 {% endblock %}

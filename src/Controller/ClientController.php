@@ -14,15 +14,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class ClientController extends AbstractController
 {
     /**
-     * @Route("/client", name="client")
-     */
-    public function index(): Response
-    {
-        return $this->render('client/index.html.twig', [
-            'controller_name' => 'ClientController',
-        ]);
-    }
-    /**
      * @Route("client/clients",name="clients")
      */
     public function read_clients(EntityManagerInterface $manager):Response
@@ -33,7 +24,8 @@ class ClientController extends AbstractController
         ]);
     }
     /**
-     * @Route ("client/add_client",name="add_client")
+     * @Route ("client/add_client",name="createClient")
+     * @Route ("client/client/{id}",name="update_client")
      */
     public function create_client(Client $client=null,Request $request,EntityManagerInterface  $manager)
     {   $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -47,10 +39,10 @@ class ClientController extends AbstractController
             $manager->flush();
             return $this->redirectToRoute('clients');
         }
-        return $this->render('client/add_client.html.twig',[
+        return $this->render('create.html.twig',[
             'form'=>$form->createView(),
             'editMode'=>$client->getId()!==null,
-            'title'=>"Adding Client"
+            'title'=>" Client"
         ]);
     }
 
@@ -63,33 +55,5 @@ class ClientController extends AbstractController
         $manager->flush();
         return $this->redirectToRoute('clients');
 
-    }
-
-
-    /**
-     * @Route ("client/client/{id}",name="update_client")
-     */
-    public function handel_client(Client $client):Response
-    {   $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $users=$client->getUsers();
-        return $this->render('client/update_client.html.twig   ',[
-            'client'=>$client,
-            'users'=>$users
-        ]);
-    }
-
-    /**
-     * @Route ("client/modify/{id}",name="modify_client")
-     */
-    public function modify_client(Client $client,EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder):Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $client->setName($_POST['name']);
-        $client->setEmail($_POST['email']);
-        $client->setAddress($_POST['address']);
-        $client->setPhone($_POST['phone']);
-        $manager->persist($client);
-        $manager->flush();
-        return $this->redirectToRoute("clients");
     }
 }

@@ -6,6 +6,7 @@ use App\Repository\OperationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=OperationRepository::class)
@@ -25,7 +26,7 @@ class Operation
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+    *  @ORM\Column(type="datetime")
      */
     private $date;
 
@@ -52,7 +53,7 @@ class Operation
     private $budgetLine;
 
     /**
-     * @ORM\OneToMany(targetEntity=PaymentTranche::class, mappedBy="operation", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=PaymentTranche::class, mappedBy="operation", orphanRemoval=true,cascade={"persist"})
      */
     private $paymentTranche;
 
@@ -84,15 +85,14 @@ class Operation
         return $this;
     }
 
-    public function getDate(): ?string
+    public function getDate(): ?\DateTime
     {
         return $this->date;
     }
 
-    public function setDate(?string $date): self
+    public function setDate(?\DateTime $time): self
     {
-        $this->date = $date;
-
+        $this->date = $time;
         return $this;
     }
 

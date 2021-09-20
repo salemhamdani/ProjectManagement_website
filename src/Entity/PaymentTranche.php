@@ -74,4 +74,8 @@ class PaymentTranche
 
         return $this;
     }
+    public function __toString()
+    {
+        return $this->value ;
+    }
 }

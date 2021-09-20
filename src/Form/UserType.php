@@ -17,24 +17,14 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name',TextType::class,[
-                'attr'=>['placeholder'=>'Enter Name'
-                ]])
-            ->add('email',EmailType::class,[
-                'attr'=>['placeholder'=>'Enter your email'
-                ], 'required' => true
-            ])
-            ->add('password',PasswordType::class,[
-                'attr'=>['placeholder'=>'Enter your password'
-                ], 'required' => true
-            ])
+            ->add('name',TextType::class)
+            ->add('email',EmailType::class)
+            ->add('password',PasswordType::class)
             ->add('confirm_password',PasswordType::class,[
                 'attr'=>['placeholder'=>'Renter your password'
                 ], 'required' => true,'label'=>'Confirm password'
             ])
-            ->add('address',TextType::class,[
-                'attr'=>['placeholder'=>'Enter your Address'
-                ]])
+            ->add('address',TextType::class)
            ->add('role',ChoiceType::class,[
                 'choices'  => [
                     'Roles'=>[
@@ -45,11 +35,6 @@ class UserType extends AbstractType
                 ],'required' => true
             ])
             ->add('client')
-            ->add('submit',SubmitType::class,[
-                'attr'=>[
-                    'class'=>'btn btn-secondary'
-                ],'label'=>'Create Account'
-            ])
         ;
     }
 

@@ -18,23 +18,18 @@ class ClientType extends AbstractType
     {
         $builder
             ->add('name',TextType::class,[
-                'attr'=>['placeholder'=>'Enter Name'
+                'attr'=>['placeholder'=>'Enter Client Name'
                 ]])
             ->add('email',EmailType::class,[
-                'attr'=>['placeholder'=>'Enter your email'
+                'attr'=>['placeholder'=>'Enter Client email'
                 ], 'required' => true
             ])
             ->add('address',TextType::class,[
-                'attr'=>['placeholder'=>'Enter your Address'
+                'attr'=>['placeholder'=>'Enter Client Address'
                 ]])
             ->add('phone',IntegerType::class,[
-                'attr'=>['placeholder'=>'Enter your phone number'
+                'attr'=>['placeholder'=>'Enter Client phone number'
                 ], 'required' => true
-            ])
-            ->add('submit',SubmitType::class,[
-                'attr'=>[
-                    'class'=>'btn btn-secondary'
-                ],'label'=>'Create Account'
             ])
         ;
     }

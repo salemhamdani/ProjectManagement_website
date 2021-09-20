@@ -2,97 +2,163 @@
 {% block title  %}
     Operations
 {% endblock %}
+{% block js %}
+    {{ parent() }}
+    <script src="/assets/js/plugins/notifications/bootbox.min.js"></script>
+    <script src="/ssets/js/plugins/forms/selects/select2.min.js"></script>
+    <script src="/assets/js/demo_pages/components_modals.js"></script>
+{% endblock %}
 {% block body %}
-    <main>
-        <div class="container-fluid px-4">
-            <h1 class="mt-4">Tables</h1>
-            <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item"><a href="{{ path('home') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active">Operations</li>
-            </ol>
-            <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-table me-1"></i>
-                    Operations Table
-                    <a href={{ path("createOperation") }}>
-                        <button class="btn btn-secondary">Add Operation</button>
-                    </a>
-                </div>
-                <div class="card-body">
-                    <table id="datatablesSimple">
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Date</th>
-                            <th>Price</th>
-                            <th>Description</th>
-                            <th>Activity</th>
-                            <th>BudgetLine</th>
-                            <th> Consulter</th>
-                            <th>Update</th>
-                            <th>Delete</th>
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        <tr>
-                            <th>Name</th>
-                            <th>Date</th>
-                            <th>Price</th>
-                            <th>Description</th>
-                            <th>Activity</th>
-                            <th>BudgetLine</th>
-                            <th> Consulter</th>
-                            <th>Update</th>
-                            <th>Delete</th>
-                        </tr>
-                        </tfoot>
-                        <tbody>
-                        {% for operation in operations %}
-                            <tr>
-                                <td>{{ operation.name }}</td>
-                                <td> {{ operation.date }}</td>
-                                <td>{{ operation.price }}</td>
-                                <td>{{ operation.description }}</td>
-                                <td>{{ operation.activity }}</td>
-                                <td>{{ operation.budgetLine }}</td>
-                                <td>
-                                    <a href={{ path('updateOperation', {'id': operation.id }) }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-                                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-                                        </svg>
-                                    </a>
-                                </td>
+    <!-- Content area -->
+    <div class="content">
 
-                                <td>
-                                    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-                                    <a href={{ path('updateOperation', {'id': operation.id }) }}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clipboard-plus" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd" d="M8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7z"/>
-                                            <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                                            <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                                        </svg>
-                                    </a>
-                                </td>
-                                <td>
-                                    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-                                    <a href={{ path('deleteOperation', {'id': operation.id }) }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
-                                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-                                        </svg>
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+        <!-- HTML sourced data -->
+        <div class="card">
+            <div class="card-header header-elements-inline">
+                <h5 class="card-title">Operations Table</h5>
+                <div class="header-elements">
+                    <div class="list-icons">
+                        <a class="list-icons-item" data-action="collapse"></a>
+                        <a class="list-icons-item" data-action="reload" href="{{ path('operations') }}"></a>
+                    </div>
                 </div>
             </div>
+
+            <div class="card-body">
+                <a href="{{ path("createOperation") }}"> <button type="submit" class="btn btn-secondary" style="float:left;"> Add Operation </button></a>
+            </div>
+            <table class="table datatable-html">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Activity</th>
+                    <th>BudgetLine</th>
+                    <th> Consulter</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for operation in operations %}
+                    <tr>
+                        <td>{{ operation.name }}</td>
+                        <td> {{ operation.date|date('d-m-Y h-m-s') }}</td>
+                        <td>{{ operation.price }}</td>
+                        <td>{{ operation.description }}</td>
+                        <td>{{ operation.activity }}</td>
+                        <td>{{ operation.budgetLine }}</td>
+                        <td>
+                            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#{{ operation.id }}">Consult <i class="icon-play3 ml-2"></i></button>
+                        </td>
+                        <td>
+                            &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                            <a href={{ path('updateOperation', {'id': operation.id }) }}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clipboard-plus" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7z"/>
+                                    <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                                    <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                                </svg>
+                            </a>
+                        </td>
+                        <td>
+                            &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                            <a href={{ path('deleteOperation', {'id': operation.id }) }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+                                    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                </svg>
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <div class="list-icons">
+                                <div class="dropdown">
+                                    <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                        <i class="icon-menu9"></i>
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i> Export to .pdf</a>
+                                        <a href="#" class="dropdown-item"><i class="icon-file-excel"></i> Export to .csv</a>
+                                        <a href="#" class="dropdown-item"><i class="icon-file-word"></i> Export to .doc</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+            </table>
         </div>
-    </main>
+    </div>
+    {% for operation in operations %}
+    <!-- Horizontal form modal -->
+    <div id="{{ operation.id }}" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> {{ operation.name }}</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <form action="#" class="form-horizontal" onsubmit="return false;">
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3">Name :</label>
+                            <div class="col-sm-9">
+                                <input type="text" placeholder="{{ operation.name }}" class="form-control" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3">Date :</label>
+                            <div class="col-sm-9">
+                                <input type="text" placeholder="{{ operation.date|date('d-m-Y h-m-s') }}" class="form-control" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3">Price :</label>
+                            <div class="col-sm-9">
+                                <input type="text" placeholder="{{ operation.price }}" class="form-control" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3"> Description :</label>
+                            <div class="col-sm-9">
+                                <input type="text" placeholder="{{ operation.description }}"  class="form-control" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3">Activity :</label>
+                            <div class="col-sm-9">
+                                <input type="text" placeholder="{{ operation.activity }}" class="form-control" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-sm-3">Budget Line :</label>
+                            <div class="col-sm-9">
+                                <input type="text" placeholder="{{ operation.budgetLine }}" class="form-control" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                        <a href="{{ path('updateOperation', {'id': operation.id }) }}"> Update </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /horizontal form modal -->
+    {% endfor %}
 {% endblock %}
 
-{% block js  %}
-    {{ parent() }}
-    <script src="/assets/js/datatables-simple-demo.js"></script>
-{% endblock %}

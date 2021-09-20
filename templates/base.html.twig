@@ -9,157 +9,209 @@
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
-            <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-            <link href="/assets/css/styles.css" rel="stylesheet" />
+            <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+            <link href="/assets/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+            <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+            <link href="/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+            <link href="/assets/css/layout.min.css" rel="stylesheet" type="text/css">
+            <link href="/assets/css/components.min.css" rel="stylesheet" type="text/css">
+            <link href="/assets/css/colors.min.css" rel="stylesheet" type="text/css">
         {% endblock %}
         {% block js %}
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-            <script src="/assets/js/scripts.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-            <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+            <!-- Core JS files -->
+            <script src="/assets/js/main/jquery.min.js"></script>
+            <script src="/assets/js/main/bootstrap.bundle.min.js"></script>
+            <script src="/assets/js/plugins/loaders/blockui.min.js"></script>
+            <!-- /core JS files -->
+
+            <!-- Theme JS files -->
+            <script src="/assets/js/plugins/tables/datatables/datatables.min.js"></script>
+            <script src="/assets/js/plugins/forms/selects/select2.min.js"></script>
+            <script src="/assets/js/app.js"></script>
+            <script src="/assets/js/demo_pages/datatables_data_sources.js"></script>
+            <!-- /theme JS files -->
         {% endblock %}
 
     </head>
-    <body  class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="{{ path('home') }}" >CRUD</a>
-        <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-        <!-- Navbar Search-->
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+    <body>
 
-        </form>
-        <!-- Navbar-->
-        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-            {% if (app.user) %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#!">Settings</a></li>
-                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="{{ path("logout") }}">Logout</a></li>
-                </ul>
-            </li>
-                {% else  %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="{{ path("login") }}">Login</a></li>
-                    <li><a class="dropdown-item" href="{{ path("signup_user") }}">Register</a></li>
-                </ul>
-            </li>
-            {% endif %}
-        </ul>
-    </nav>
-    <div id="layoutSidenav">
-        <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                <div class="sb-sidenav-menu">
-                    <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Core</div>
-                        <a class="nav-link" href="{{ path('home') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Dashboard
-                        </a>
+    <!-- Main navbar -->
+    <div class="navbar navbar-expand-md navbar-dark">
+        <div class="navbar-brand">
+            <a href="index.html" class="d-inline-block">
+                <img src="../../../../global_assets/images/logo_light.png" alt="">
+            </a>
+        </div>
 
-                        <div class="sb-sidenav-menu-heading">Interface</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            Pages
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        {% if not ( app.user) %}
-                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                    Authentication
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                    <nav class="sb-sidenav-menu-nested nav">
+        <div class="d-md-none">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-mobile">
+                <i class="icon-tree5"></i>
+            </button>
+            <button class="navbar-toggler sidebar-mobile-main-toggle" type="button">
+                <i class="icon-paragraph-justify3"></i>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-mobile">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="#" class="navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block">
+                        <i class="icon-paragraph-justify3"></i>
+                    </a>
+                </li>
+            </ul>
 
-                                        <a class="nav-link" href="{{ path('login') }}">Login</a>
-                                        <a class="nav-link" href="{{ path('signup_user') }}">Register</a>
-                                    </nav>
+
+            <span class="navbar-text ml-md-3 mr-md-auto">
+
+			</span>
+
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown dropdown-user">
+                    <a href="#" class="navbar-nav-link dropdown-toggle" data-toggle="dropdown">
+                        <img src="../../../../global_assets/images/placeholders/placeholder.jpg" class="rounded-circle" alt="">
+                        <span>{{ app.user.name }}</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a href="{{ path('logout') }}" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /main navbar -->
+    <!-- Page content -->
+    <div class="page-content">
+    {% block navigation %}
+        <!-- Main sidebar -->
+        <div class="sidebar sidebar-dark sidebar-main sidebar-expand-md">
+
+            <!-- Sidebar mobile toggler -->
+            <div class="sidebar-mobile-toggler text-center">
+                <a href="#" class="sidebar-mobile-main-toggle">
+                    <i class="icon-arrow-left8"></i>
+                </a>
+                Navigation
+                <a href="#" class="sidebar-mobile-expand">
+                    <i class="icon-screen-full"></i>
+                    <i class="icon-screen-normal"></i>
+                </a>
+            </div>
+            <!-- /sidebar mobile toggler -->
+
+
+            <!-- Sidebar content -->
+            <div class="sidebar-content">
+
+                <!-- User menu -->
+                <div class="sidebar-user">
+                    <div class="card-body">
+                        <div class="media">
+                            <div class="mr-3">
+                                <a href="#"><img src="../../../../global_assets/images/placeholders/placeholder.jpg" width="38" height="38" class="rounded-circle" alt=""></a>
+                            </div>
+
+                            <div class="media-body">
+                                <div class="media-title font-weight-semibold">{{ app.user.name }}</div>
+                                <div class="font-size-xs opacity-50">
+                                    <i class="icon-pin font-size-sm"></i> &nbsp;Santa Ana, CA
                                 </div>
+                            </div>
 
-                            </nav>
-                            {% endif %}
+                            <div class="ml-3 align-self-center">
+                                <a href="#" class="text-white"><i class="icon-cog3"></i></a>
+                            </div>
                         </div>
-                        <div class="sb-sidenav-menu-heading">Addons</div>
-                        <a class="nav-link" href={{ path('users') }}>
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Users Table
-                        </a>
-                        <a class="nav-link" href={{ path('clients') }}>
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Clients Table
-                        </a>
-                        <a class="nav-link" href={{ path('projects') }}>
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Projects Table
-                        </a>
-                        <a class="nav-link" href={{ path('activities') }}>
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Activities Table
-                        </a>
-                        <a class="nav-link" href={{ path('budgetLines') }}>
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            BudgetLines Table
-                        </a>
-                        <a class="nav-link" href={{ path('operations') }}>
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Operations Table
-                        </a>
-                        <a class="nav-link" href={{ path('paymentTypes') }}>
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            PaymentTypes Table
-                        </a>
-                        <a class="nav-link" href={{ path('paymentTranches') }}>
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            PaymentTranches Table
-                        </a>
-                        <a class="nav-link" href={{ path('traceTypes') }}>
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            TraceTypes Table
-                        </a>
-                        <a class="nav-link" href={{ path('paymentTraces') }}>
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            PaymentTraces Table
-                        </a>
-                        <a class="nav-link" href="#">
-                        </a>
-                        <a class="nav-link" href="#">
-                        </a>
                     </div>
                 </div>
-                <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as:</div>
-                    Start Bootstrap
+                <!-- /user menu -->
+
+
+                <!-- Main navigation -->
+                <div class="card card-sidebar-mobile">
+                    <ul class="nav nav-sidebar" data-nav-type="accordion">
+
+                        <!-- Main -->
+                        <li class="nav-item-header"><div class="text-uppercase font-size-xs line-height-xs">Main</div> <i class="icon-menu" title="Main"></i></li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="icon-home4"></i>
+                                <span>
+									Dashboard
+									<span class="d-block font-weight-normal opacity-50">No active orders</span>
+								</span>
+                            </a>
+                        </li>
+                        <li class="nav-item nav-item-submenu">
+                            <a href="#" class="nav-link"><i class="icon-copy"></i> <span>Tables</span></a>
+
+                            <ul class="nav nav-group-sub" data-submenu-title="Tables">
+                                <li class="nav-item"><a href="{{ path('homepage') }}" class="nav-link active">Crud Tables</a></li>
+                                <li class="nav-item"><a href="{{ path('clients') }}" class="nav-link">Client</a></li>
+                                <li class="nav-item"><a href="{{ path('users') }}" class="nav-link">User</a></li>
+                                <li class="nav-item"><a href="{{ path('projects') }}" class="nav-link">Project</a></li>
+                                <li class="nav-item"><a href="{{ path('activities') }}" class="nav-link">Activity</a></li>
+                                <li class="nav-item"><a href="{{ path('budgetLines') }}" class="nav-link">Budget Line</a></li>
+                                <li class="nav-item"><a href="{{ path('operations') }}" class="nav-link">Operation</a></li>
+                                <li class="nav-item nav-item-submenu">
+                                    <a href="#" class="nav-link">Payment</a>
+                                    <ul class="nav nav-group-sub">
+                                      <li class="nav-item"><a href="{{ path('paymentTranches') }}" class="nav-link">Payment Tranche</a></li>
+                                      <li class="nav-item"><a href="{{ path('paymentTypes') }}" class="nav-link">Payment Type</a></li>
+                                        <li class="nav-item nav-item-submenu">
+                                            <a href="#" class="nav-link">Trace</a>
+                                            <ul class="nav nav-group-sub">
+                                             <li class="nav-item"><a href="{{ path('paymentTraces') }}" class="nav-link">Payment Trace</a></li>
+                                             <li class="nav-item"><a href="{{ path('traceTypes') }}" class="nav-link">Trace Type</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!-- /main -->
+                    </ul>
                 </div>
-            </nav>
+                <!-- /main navigation -->
+
+            </div>
+            <!-- /sidebar content -->
+
         </div>
-        <div id="layoutSidenav_content">
+        <!-- /main sidebar -->
+
+    {% endblock %}
+        <!-- Main content -->
+        <div class="content-wrapper">
         {% block body %}
         {% endblock %}
             {% block footer %}
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2021</div>
-                        <div>
-                            <a href="#">Privacy Policy</a>
-                            &middot;
-                            <a href="#">Terms &amp; Conditions</a>
-                        </div>
+                <!-- Footer -->
+                <div class="navbar navbar-expand-lg navbar-light">
+                    <div class="text-center d-lg-none w-100">
+                        <button type="button" class="navbar-toggler dropdown-toggle" data-toggle="collapse" data-target="#navbar-footer">
+                            <i class="icon-unfold mr-2"></i>
+                            Footer
+                        </button>
+                    </div>
+
+                    <div class="navbar-collapse collapse" id="navbar-footer">
+					<span class="navbar-text">
+						&copy; 2015 - 2018. <a href="#">Limitless Web App Kit</a> by <a href="http://themeforest.net/user/Kopyov" target="_blank">Eugene Kopyov</a>
+					</span>
+
+                        <ul class="navbar-nav ml-lg-auto">
+                            <li class="nav-item"><a href="https://kopyov.ticksy.com/" class="navbar-nav-link" target="_blank"><i class="icon-lifebuoy mr-2"></i> Support</a></li>
+                            <li class="nav-item"><a href="http://demo.interface.club/limitless/docs/" class="navbar-nav-link" target="_blank"><i class="icon-file-text2 mr-2"></i> Docs</a></li>
+
+                        </ul>
                     </div>
                 </div>
-            </footer>
+                <!-- /footer -->
             {% endblock %}
         </div>
+        <!-- /main content -->
     </div>
+    <!-- /page content -->
     </body>
 </html>
