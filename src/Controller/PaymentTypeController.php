@@ -36,14 +36,17 @@ class PaymentTypeController extends AbstractController
      */
     public function handle_paymentType(Request $request,EntityManagerInterface $manager,PaymentType $paymentType= null)
     {
+        $message='paymentType updated !';
         if(!$paymentType){
             $paymentType=new PaymentType();
+            $message='paymentType created !';
         }
         $form=$this->createForm(PaymentTypeType::class,$paymentType);
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid()){
             $manager->persist($paymentType);
             $manager->flush();
+            $this->addFlash('success', $message);
             return $this->redirectToRoute("paymentTypes");
         }
         return  $this->render('create.html.twig',[
@@ -59,6 +62,7 @@ class PaymentTypeController extends AbstractController
     {
         $manager->remove($paymentType);
         $manager->flush();
+        $this->addFlash('success', 'PaymentType deleted !');
         return $this->redirectToRoute('paymentTypes');
     }
 

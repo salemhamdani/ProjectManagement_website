@@ -29,12 +29,12 @@
             <script src="/assets/js/plugins/forms/selects/select2.min.js"></script>
             <script src="/assets/js/app.js"></script>
             <script src="/assets/js/demo_pages/datatables_data_sources.js"></script>
+            <script src="/assets/js/demo_pages/colors_danger.js"></script>
             <!-- /theme JS files -->
         {% endblock %}
 
     </head>
     <body>
-
     <!-- Main navbar -->
     <div class="navbar navbar-expand-md navbar-dark">
         <div class="navbar-brand">
@@ -142,33 +142,63 @@
                             </a>
                         </li>
                         <li class="nav-item nav-item-submenu">
-                            <a href="#" class="nav-link"><i class="icon-copy"></i> <span>Tables</span></a>
+                            <a href="#" class="nav-link"><i class="icon-copy"></i> <span>Manage Clients</span></a>
 
-                            <ul class="nav nav-group-sub" data-submenu-title="Tables">
-                                <li class="nav-item"><a href="{{ path('homepage') }}" class="nav-link active">Crud Tables</a></li>
-                                <li class="nav-item"><a href="{{ path('clients') }}" class="nav-link">Client</a></li>
-                                <li class="nav-item"><a href="{{ path('users') }}" class="nav-link">User</a></li>
-                                <li class="nav-item"><a href="{{ path('projects') }}" class="nav-link">Project</a></li>
-                                <li class="nav-item"><a href="{{ path('activities') }}" class="nav-link">Activity</a></li>
-                                <li class="nav-item"><a href="{{ path('budgetLines') }}" class="nav-link">Budget Line</a></li>
-                                <li class="nav-item"><a href="{{ path('operations') }}" class="nav-link">Operation</a></li>
+                            <ul class="nav nav-group-sub" data-submenu-title="Manage Clients">
+                                <li class="nav-item"><a href="{{ path('clients') }}" class="nav-link" >Clients Table</a></li>
+
+                            </ul>
+                        </li>
+                        <li class="nav-item nav-item-submenu">
+                            <a href="#" class="nav-link"><i class="icon-copy"></i> <span>Manage Users</span></a>
+
+                            <ul class="nav nav-group-sub" data-submenu-title="Manage Users">
+                                <li class="nav-item"><a href="{{ path('users') }}" class="nav-link">Users Table</a></li>
+
+                            </ul>
+                        </li>
+                        <li class="nav-item nav-item-submenu">
+                            <a href="#" class="nav-link"><i class="icon-copy"></i> <span>Manage Projects</span></a>
+
+                            <ul class="nav nav-group-sub" data-submenu-title="Manage Projects">
+                                <li class="nav-item"><a href="{{ path('projects') }}" class="nav-link">Projects Table</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item nav-item-submenu">
+                            <a href="#" class="nav-link"><i class="icon-copy"></i> <span>Manage Activities</span></a>
+
+                            <ul class="nav nav-group-sub" data-submenu-title="Manage Activities">
+                                <li class="nav-item"><a href="{{ path('activities') }}" class="nav-link"> Activities Table</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item nav-item-submenu">
+                            <a href="#" class="nav-link"><i class="icon-copy"></i> <span>Manage  Budget Lines</span></a>
+
+                            <ul class="nav nav-group-sub" data-submenu-title="Manage  Budget Lines">
+                                <li class="nav-item"><a href="{{ path('budgetLines') }}" class="nav-link">Budget Lines Table</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item nav-item-submenu">
+                            <a href="#" class="nav-link"><i class="icon-copy"></i> <span>Manage Operations</span></a>
+
+                            <ul class="nav nav-group-sub" data-submenu-title="Manage Operations">
+                                <li class="nav-item"><a href="{{ path('operations') }}" class="nav-link">Operations Table </a></li>
+                            </ul>
+                        </li>
+                         <li class="nav-item nav-item-submenu">
+                            <a href="#" class="nav-link"><i class="icon-copy"></i> <span>Manage Payments</span></a>
+                            <ul class="nav nav-group-sub">
+                                <li class="nav-item"><a href="{{ path('paymentTranches') }}" class="nav-link">PaymentTranches Table</a></li>
+                                <li class="nav-item"><a href="{{ path('paymentTypes') }}" class="nav-link">PaymentTypes Table</a></li>
                                 <li class="nav-item nav-item-submenu">
-                                    <a href="#" class="nav-link">Payment</a>
+                                    <a href="#" class="nav-link">Manage Trace</a>
                                     <ul class="nav nav-group-sub">
-                                      <li class="nav-item"><a href="{{ path('paymentTranches') }}" class="nav-link">Payment Tranche</a></li>
-                                      <li class="nav-item"><a href="{{ path('paymentTypes') }}" class="nav-link">Payment Type</a></li>
-                                        <li class="nav-item nav-item-submenu">
-                                            <a href="#" class="nav-link">Trace</a>
-                                            <ul class="nav nav-group-sub">
-                                             <li class="nav-item"><a href="{{ path('paymentTraces') }}" class="nav-link">Payment Trace</a></li>
-                                             <li class="nav-item"><a href="{{ path('traceTypes') }}" class="nav-link">Trace Type</a></li>
-                                            </ul>
-                                        </li>
+                                        <li class="nav-item"><a href="{{ path('paymentTraces') }}" class="nav-link">PaymentTraces Table</a></li>
+                                        <li class="nav-item"><a href="{{ path('traceTypes') }}" class="nav-link">TraceTypes Table</a></li>
                                     </ul>
                                 </li>
                             </ul>
                         </li>
-
                         <!-- /main -->
                     </ul>
                 </div>
@@ -183,6 +213,20 @@
     {% endblock %}
         <!-- Main content -->
         <div class="content-wrapper">
+        {% block notifications  %}
+            {% for message in app.flashes('error') %}
+            <div class="alert bg-danger alert-styled-left alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% for message in app.flashes('success') %}
+                <div class="alert bg-grey alert-styled-left alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endblock %}
         {% block body %}
         {% endblock %}
             {% block footer %}

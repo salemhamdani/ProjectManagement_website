@@ -20,7 +20,6 @@ class BudgetLineType extends AbstractType
             ->add('percentage',NumberType::class,[
                 'attr'=>['placeholder'=>'Enter the percentage '
                 ],'required' => true])
-            ->add('project')
         ;
     }
 

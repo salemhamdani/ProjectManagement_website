@@ -22,20 +22,14 @@ class BudgetLineRepository extends ServiceEntityRepository
     // /**
     //  * @return BudgetLine[] Returns an array of BudgetLine objects
     //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
+    public function findByProjectField($project)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.project = :val')
+            ->setParameter('val', $project)
+            ;
+    }
     /*
     public function findOneBySomeField($value): ?BudgetLine
     {

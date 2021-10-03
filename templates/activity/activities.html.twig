@@ -17,11 +17,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="card-body">
-                <a href="{{ path("createActivity") }}"> <button type="submit" class="btn btn-secondary" style="float:left;"> Add Activity </button></a>
-            </div>
-
             <table class="table datatable-html">
                 <thead>
                 <tr>
@@ -29,7 +24,6 @@
                     <th>Project</th>
                     <th>Update</th>
                     <th>Delete</th>
-                    <th class="text-center">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -39,7 +33,7 @@
                         <td>{{ activity.project }}</td>
                         <td>
                             &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
-                            <a href={{ path('updateActivity', {'id': activity.id }) }}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clipboard-plus" viewBox="0 0 16 16">
+                            <a href={{ path('updateActivity', {'id': activity.id }) }}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="grey" class="bi bi-clipboard-plus" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7z"/>
                                     <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
                                     <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
@@ -49,27 +43,13 @@
                         <td>
                             &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
                             <a href={{ path('deleteActivity', {'id': activity.id }) }}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-x-square" viewBox="0 0 16 16">
                                     <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
                                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                                 </svg>
                             </a>
                         </td>
-                        <td class="text-center">
-                            <div class="list-icons">
-                                <div class="dropdown">
-                                    <a href="#" class="list-icons-item" data-toggle="dropdown">
-                                        <i class="icon-menu9"></i>
-                                    </a>
 
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a href="#" class="dropdown-item"><i class="icon-file-pdf"></i> Export to .pdf</a>
-                                        <a href="#" class="dropdown-item"><i class="icon-file-excel"></i> Export to .csv</a>
-                                        <a href="#" class="dropdown-item"><i class="icon-file-word"></i> Export to .doc</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
                     </tr>
 
                 {% endfor %}

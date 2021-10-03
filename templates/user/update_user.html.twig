@@ -4,71 +4,87 @@
 {% endblock %}
 {% block js %}
     {{ parent() }}
-    <script src="{{asset('build/global_assets/js/plugins/forms/validation/validate.min.js')}}"></script>
-    <script src="{{asset('build/global_assets/js/plugins/forms/inputs/touchspin.min.js')}}"></script>
-    <script src="{{asset('build/global_assets/js/plugins/forms/styling/switch.min.js')}}"></script>
-    <script src="{{asset('build/global_assets/js/plugins/forms/styling/switchery.min.js')}}"></script>
-    <script src="{{asset('build/global_assets/js/demo_pages/form_validation.js')}}"></script>
+    <script src="{{ asset('build/global_assets/js/plugins/forms/validation/validate.min.js') }}"></script>
+    <script src="{{ asset('build/global_assets/js/plugins/forms/inputs/touchspin.min.js') }}"></script>
+    <script src="{{ asset('build/global_assets/js/plugins/forms/styling/switch.min.js') }}"></script>
+    <script src="{{ asset('build/global_assets/js/plugins/forms/styling/switchery.min.js') }}"></script>
+    <script src="{{ asset('build/global_assets/js/demo_pages/form_validation.js') }}"></script>
 {% endblock %}
 {% block body %}
     <br><br><br>
     <form class="form-validate-jquery novalidate" action="{{ path('modify_user',{'id':user.id }) }}" method="post">
-    <div class="content">
-        <div class="card">
-            <div class="card-body">
-                <fieldset class="mb-3">
-                    <legend class="text-uppercase font-size-l font-weight-bold">Update {{ user.name}} </legend>
+        <div class="content">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <fieldset class="mb-3">
+                                <legend class="text-uppercase font-size-l font-weight-bold">
+                                    Update {{ user.name }} </legend>
 
-                    <div class="form-group row">
-                        <label class="col-form-label col-lg-2">Name :</label>
-                        <div class="col-lg-10">
-                            <input name="name" type="text" class="form-control" placeholder="{{ user.name }}" value="{{ user.name }}">
+                                <div class="form-group row">
+                                    <label class="col-form-label col-lg-2">Name :</label>
+                                    <div class="col-lg-10">
+                                        <input name="name" type="text" class="form-control"
+                                               placeholder="{{ user.name }}" value="{{ user.name }}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-lg-2">E-mail :</label>
+                                    <div class="col-lg-10">
+                                        <input name="email" type="email" class="form-control"
+                                               placeholder="{{ user.email }}" value="{{ user.email }}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-lg-2">Address :</label>
+                                    <div class="col-lg-10">
+                                        <input name="address" type="text" class="form-control"
+                                               placeholder="{{ user.address }}" value="{{ user.address }}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-form-label col-lg-2">Role :</label>
+                                    <div class="col-lg-10">
+                                        <select class="form-control" id="role" name="role">
+                                            <option value="ADMIN" {% if (user.role == 'ADMIN') %} selected {% endif %}>
+                                                ADMIN
+                                            </option>
+                                            <option value="USER" {% if (user.role == 'USER') %} selected {% endif %}>
+                                                USER
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <br>
+                                <button name="submit" type="submit" class="btn btn-secondary" style="float:right;"
+                                        value="info">Save Changes <i class="icon-checkmark3 font-size-base mr-1"></i>
+                                </button>
+                            </fieldset>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-form-label col-lg-2">E-mail :</label>
-                        <div class="col-lg-10">
-                            <input name="email" type="email" class="form-control" placeholder="{{ user.email }}" value="{{ user.email }}">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-form-label col-lg-2">Address :</label>
-                        <div class="col-lg-10">
-                            <input name="address" type="text" class="form-control" placeholder="{{ user.address }}" value="{{ user.address }}">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                            <label class="col-form-label col-lg-2">Role :</label>
-                        <div class="col-lg-10">
-                            <select class="form-control" id="role" name="role" >
-                                <option value="ADMIN" {% if (user.role == 'ADMIN') %} selected {% endif %}>ADMIN</option>
-                                <option value="USER" {% if (user.role == 'USER') %} selected {% endif %}> USER</option>
-                            </select>
-                        </div>
-                    </div>
-                    <br>
-                    <button name="submit" type="submit" class="btn btn-secondary" style="float:right;" value="info">Save Changes <i class="icon-checkmark3 font-size-base mr-1"></i></button>
-                </fieldset>
+                </div>
             </div>
         </div>
-    </div>
     </form>
-    <form action="{{ path('modify_user',{'id':user.id }) }}" method="post"  enctype="multipart/form-data"
+    <form action="{{ path('modify_user',{'id':user.id }) }}" method="post" enctype="multipart/form-data"
           oninput='password2.setCustomValidity(password2.value != password.value ? "Passwords do not match." : "")'>
         <div class="content">
             <div class="card">
                 <div class="card-body">
                     <fieldset class="mb-3">
-                        <legend class="text-uppercase font-size-l font-weight-bold">Change {{ user.name}} Password </legend>
+                        <legend class="text-uppercase font-size-l font-weight-bold">Change {{ user.name }}Password
+                        </legend>
                         <div class="form-group row">
                             <label>Password</label>
-                            <input type="password" class="form-control" id="password"  name="password" required>
+                            <input type="password" class="form-control" id="password" name="password" required>
                         </div>
                         <div class="form-group row">
                             <label>Confirm Password</label>
-                            <input type="password" class="form-control" id="password"  name="password2" required>
+                            <input type="password" class="form-control" id="password" name="password2" required>
                         </div>
-                        <button name="submit" type="submit" class="btn btn-secondary" style="float:right;">Save Changes <i class="icon-checkmark3 font-size-base mr-1"></i></button>
+                        <button name="submit" type="submit" class="btn btn-secondary" style="float:right;">Save Changes
+                            <i class="icon-checkmark3 font-size-base mr-1"></i></button>
                     </fieldset>
                 </div>
             </div>

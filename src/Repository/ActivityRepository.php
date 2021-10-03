@@ -22,19 +22,15 @@ class ActivityRepository extends ServiceEntityRepository
     // /**
     //  * @return Activity[] Returns an array of Activity objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findByProjectField($project)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+            ->andWhere('a.project = :val')
+            ->setParameter('val', $project)
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Activity

@@ -29,14 +29,17 @@ class ClientController extends AbstractController
      */
     public function create_client(Client $client=null,Request $request,EntityManagerInterface  $manager)
     {   $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $message='Client updated !';
         if(!$client){
             $client=new Client();
+            $message='Client created';
         }
         $form=$this->createForm(ClientType::class,$client);
         $form->handleRequest($request);
         if ($form->isSubmitted()&&$form->isValid()){
             $manager->persist($client);
             $manager->flush();
+            $this->addFlash('success', $message);
             return $this->redirectToRoute('clients');
         }
         return $this->render('create.html.twig',[
@@ -53,6 +56,7 @@ class ClientController extends AbstractController
     {   $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $manager->remove($client);
         $manager->flush();
+        $this->addFlash('success', 'Client deleted !');
         return $this->redirectToRoute('clients');
 
     }

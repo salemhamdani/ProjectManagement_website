@@ -30,20 +30,39 @@ class ActivityController extends AbstractController
         ]);
     }
     /**
-     * @Route("/create", name="createActivity")
-     * @Route("/update/{id}", name="updateActivity")
+     * @Route("/create/{id}", name="createActivity")
      */
-    public function handle_activity(Request $request,EntityManagerInterface $manager,Activity $activity= null)
+    public function handle_activity(Request $request,EntityManagerInterface $manager, Project $project)
     {
-        if(!$activity){
-            $activity=new Activity();
+        $activity=new Activity();
+        $form=$this->createForm(ActivityType::class,$activity);
+        $form->handleRequest($request);
+        $name=$project->getName();
+        if($form->isSubmitted()&&$form->isValid()){
+            $activity->setProject($project);
+            $manager->persist($activity);
+            $manager->flush();
+            $this->addFlash('success', 'Activity created !');
+            return $this->redirectToRoute("activities");
         }
-
+        return  $this->render('create.html.twig',[
+            'title'=>"Activity",
+            'form'=>$form->createView(),
+            'editMode'=>$activity->getId() !==null,
+            'proj_name'=>$name
+        ]);
+    }
+    /**
+     *@Route("/update/{id}", name="updateActivity")
+     */
+    public function update_activity(Request $request,EntityManagerInterface $manager,Activity $activity= null)
+    {
         $form=$this->createForm(ActivityType::class,$activity);
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid()){
             $manager->persist($activity);
             $manager->flush();
+            $this->addFlash('success', 'Activity updated !');
             return $this->redirectToRoute("activities");
         }
         return  $this->render('create.html.twig',[
@@ -59,6 +78,7 @@ class ActivityController extends AbstractController
     {
         $manager->remove($activity);
         $manager->flush();
+        $this->addFlash('success', 'Activity deleted !');
         return $this->redirectToRoute('activities');
     }
 }

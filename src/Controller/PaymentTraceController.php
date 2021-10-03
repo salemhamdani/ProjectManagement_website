@@ -33,12 +33,14 @@ class PaymentTraceController extends AbstractController
      * @Route("/create", name="createPaymentTrace")
      * @Route("/update/{id}", name="updatePaymentTrace")
      */
-    public function handle_activity(Request $request,EntityManagerInterface $manager,PaymentTrace $paymentTrace= null)
+    public function handle_paymentTrace(Request $request,EntityManagerInterface $manager,PaymentTrace $paymentTrace= null)
     {
         if(!$paymentTrace){
             $paymentTrace=new PaymentTrace();
+            $message='PaymentTrace created';
         }else {
             $paymentTrace->setFile(new File($this->getParameter('traces_directory').'/'.$paymentTrace->getFile()));
+            $message='PaymentTrace updated';
         }
 
         $form=$this->createForm(PaymentTraceType::class,$paymentTrace);
@@ -54,9 +56,9 @@ class PaymentTraceController extends AbstractController
                 // ... handle exception if something happens during file upload
             }
             $paymentTrace->setFile($newFilename);
-
             $manager->persist($paymentTrace);
             $manager->flush();
+            $this->addFlash('success', $message);
             return $this->redirectToRoute("paymentTraces");
         }
         return  $this->render('create.html.twig',[
@@ -72,6 +74,7 @@ class PaymentTraceController extends AbstractController
     {
         $manager->remove($paymentTrace);
         $manager->flush();
+        $this->addFlash('success', 'PaymentTrace deleted !');
         return $this->redirectToRoute('paymentTraces');
     }
 }

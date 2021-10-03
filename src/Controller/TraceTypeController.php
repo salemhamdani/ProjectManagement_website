@@ -35,8 +35,10 @@ class TraceTypeController extends AbstractController
      */
     public function handle_traceType(Request $request,EntityManagerInterface $manager,TraceType $traceType= null)
     {
+        $message='TraceType updated !';
         if(!$traceType){
             $traceType=new TraceType();
+            $message='TraceType created !';
         }
 
         $form=$this->createForm(TraceTypeType::class,$traceType);
@@ -44,6 +46,7 @@ class TraceTypeController extends AbstractController
         if($form->isSubmitted()&&$form->isValid()){
             $manager->persist($traceType);
             $manager->flush();
+            $this->addFlash('success', $message);
             return $this->redirectToRoute("traceTypes");
         }
         return  $this->render('create.html.twig',[
@@ -59,6 +62,7 @@ class TraceTypeController extends AbstractController
     {
         $manager->remove($traceType);
         $manager->flush();
+        $this->addFlash('success', 'TraceType deleted !');
         return $this->redirectToRoute('traceTypes');
     }
 }

@@ -2,8 +2,14 @@
 
 namespace App\Form;
 
+use App\Entity\Activity;
+use App\Entity\BudgetLine;
 use App\Entity\Operation;
 use App\Entity\PaymentTranche;
+use App\Repository\ActivityRepository;
+use App\Repository\BudgetLineRepository;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\AbstractType;
@@ -16,6 +22,7 @@ class OperationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $this->project=$options['project'];
         $builder
             ->add('name',TextType::class,[
                 'attr'=>['placeholder'=>'Enter The Operation Name'
@@ -28,8 +35,23 @@ class OperationType extends AbstractType
             ->add('description',TextType::class,[
                 'attr'=>['placeholder'=>'Enter The description '
                 ]])
-            ->add('activity')
-            ->add('budgetLine')
+            ->add('activity',EntityType::class,[
+                'class'=>Activity::class,
+                'query_builder' => function (ActivityRepository $er) {
+                    return $er->findByProjectField($this->project);
+                },
+                'multiple' => false,
+                'choice_label' => 'name',
+            ])
+            ->add('budgetLine',EntityType::class,[
+                'class'=>BudgetLine::class,
+                    'query_builder' => function (BudgetLineRepository  $er) {
+                        return $er->findByProjectField($this->project);
+                    },
+                    'multiple' => false,
+                    'choice_label' => 'name',
+                ]
+            )
             ->add('paymentTranche',CollectionType::class ,[
                 'entry_type'=>PaymentTrancheType::class,
                 'allow_add' => true,
@@ -45,6 +67,8 @@ class OperationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Operation::class,
+            'project'=>NULL
         ]);
+        $resolver->setAllowedTypes('project', 'integer');
     }
 }

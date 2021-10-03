@@ -13,11 +13,9 @@ class ActivityType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name',TextType::class,[
-            'attr'=>['placeholder'=>'Enter Activity Name'
-    ],'required' => true])
-            ->add('project')
-        ;
+            ->add('name', TextType::class, [
+                'attr' => ['placeholder' => 'Enter Activity Name'
+                ], 'required' => true]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\Activity;
 use App\Entity\BudgetLine;
 use App\Entity\Operation;
+use App\Entity\Project;
 use App\Form\ActivityType;
 use App\Form\OperationType;
+use App\Service\Validator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,13 +35,19 @@ class OperationController extends AbstractController
     /**
      * @Route("/update/{id}", name="updateOperation")
      */
-    public function update_operation(EntityManagerInterface $manager,Operation $operation,Request $request){
-        $form=$this->createForm(OperationType::class,$operation);
+    public function update_operation(EntityManagerInterface $manager,Operation $operation,Request $request,Validator $validator){
+        $form=$this->createForm(OperationType::class,$operation,['project'=>$operation->getBudgetLine()->getProject()->getId()]);
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid()){
             $manager->persist($operation);
-            $manager->flush();
-            return $this->redirectToRoute("operations");
+            if ($validator->validateOperation($operation)) {
+                $manager->flush();
+                $this->addFlash('success', 'Operation updated !');
+                return $this->redirectToRoute("operations");
+            }else {
+                $this->addFlash('error', 'the price of operation exceeded the budget !');
+                return $this->redirectToRoute("updateOperation",['id'=>$operation->getId()]);
+            }
         }
         return  $this->render('operation/update.html.twig',[
             'title'=>"Operation",
@@ -48,22 +56,33 @@ class OperationController extends AbstractController
         ]);
     }
     /**
-     * @Route("/create", name="createOperation")
+     * @Route("/create/{id}", name="createOperation", defaults={"id"=0})
      */
-    public function create_operation(Request $request,EntityManagerInterface $manager)
+    public function create_operation(Request $request,EntityManagerInterface $manager,Project $project=null,Validator $validator)
     {
         $operation=new Operation();
-        $form=$this->createForm(OperationType::class,$operation);
+        $form=$this->createForm(OperationType::class,$operation,['project'=>$project->getId()]);
         $form->handleRequest($request);
+        $name="";
+        if ($project){
+            $name=$project->getName();
+        }
         if($form->isSubmitted()&&$form->isValid()){
             $manager->persist($operation);
-            $manager->flush();
-            return $this->redirectToRoute("operations");
+            if ($validator->validateOperation($operation)) {
+                $manager->flush();
+                $this->addFlash('success', 'Operation created !');
+                return $this->redirectToRoute("operations");
+            }else {
+                $this->addFlash('error', 'the price of operation exceeded the budget !');
+                return $this->redirectToRoute("createOperation");
+            }
         }
         return  $this->render('operation/create.html.twig',[
             'title'=>"Operation",
             'form'=>$form->createView(),
-            'editMode'=>$operation->getId() !==null
+            'proj_name'=>$name,
+            'project'=> $project!== null
         ]);
     }
     /**
@@ -73,14 +92,17 @@ class OperationController extends AbstractController
     {
         $manager->remove($operation);
         $manager->flush();
+        $this->addFlash('success', 'Operation deleted !');
         return $this->redirectToRoute('operations');
     }
     /**
      * @Route ("/consult/{id}",name="consultOperation")
      */
-    public function  consult_operation():Response{
-return $this->render('operation/consult.html.twig',[
 
-]);
-    }
+    public function  consult_operation():Response{
+
+         return $this->render('operation/consult.html.twig',[
+
+                ]);
+            }
 }

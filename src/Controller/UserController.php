@@ -39,6 +39,7 @@ class UserController extends AbstractController
     { $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $manager->remove($user);
         $manager->flush();
+        $this->addFlash('success', 'User deleted !');
         return $this->redirectToRoute('users');
     }
     /**
@@ -72,6 +73,7 @@ class UserController extends AbstractController
         }
         $manager->persist($user);
         $manager->flush();
+        $this->addFlash('success', 'User updated !');
         return $this->redirectToRoute("users");
     }
     /**
@@ -92,6 +94,7 @@ class UserController extends AbstractController
             }
             $manager->persist($user);
             $manager->flush();
+            $this->addFlash('success', 'Operation created !');
             return $this->redirectToRoute('users');
         }
         return $this->render('user/add_user.html.twig',[

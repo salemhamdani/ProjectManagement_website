@@ -19,13 +19,12 @@
                     <div class="card-body">
                         <fieldset class="mb-3">
                             <legend class="text-uppercase font-size-l font-weight-bold">
-                                {% if editMode %} Update {{ title }} {% else %} Create {{ title }} {% if title == 'Activity' %} for {{ proj_name }} {% endif %}
-                                {% endif %}
+                                {% if editMode %} Update {{ title }} {% else %} Create  {{ title }} for {{ proj_name }} Project {% endif %}
                             </legend>
                             {{ form_rest(form) }}
                             <button type="submit" class="btn btn-secondary"
-                                    style="float:right;">{% if editMode %} Save {% else %} Create ! {% endif %}
-                                <i class="icon-checkmark3 font-size-base mr-1"></i></button>
+                                    style="float:right;">{% if editMode %} Save {% else %} Create ! {% endif %}<i
+                                        class="icon-checkmark3 font-size-base mr-1"></i></button>
                         </fieldset>
                     </div>
                 </div>
@@ -35,4 +34,19 @@
         </div>
     </div>
 
+    {% if title == "BudgetLine" and editMode %}
+        <div class="content">
+            <div class="card">
+                <div class="card-header header-elements-inline">
+                    <h5 class="card-title">BudgetLine Percentage :</h5>
+                </div>
+                <div class="card-body">
+                    <h4>Used Budget :</h4>
+                    <p>{{ used }}</p>
+                    <h4>Available Budget :</h4>
+                    <p>{{ available }}</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
