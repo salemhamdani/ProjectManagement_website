@@ -8,6 +8,7 @@ use App\Entity\Operation;
 use App\Entity\Project;
 use App\Form\ActivityType;
 use App\Form\OperationType;
+use App\Form\OperationUpType;
 use App\Service\Validator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,7 +37,7 @@ class OperationController extends AbstractController
      * @Route("/update/{id}", name="updateOperation")
      */
     public function update_operation(EntityManagerInterface $manager,Operation $operation,Request $request,Validator $validator){
-        $form=$this->createForm(OperationType::class,$operation,['project'=>$operation->getBudgetLine()->getProject()->getId()]);
+        $form=$this->createForm(OperationUpType::class,$operation,['project'=>$operation->getBudgetLine()->getProject()->getId()]);
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid()){
             $manager->persist($operation);
