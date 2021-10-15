@@ -50,7 +50,7 @@ class BudgetLineController extends AbstractController
             if ($validator->validateBudgetLine($budgetLine))
             { $manager->flush();
                 $this->addFlash('success', 'BudgetLine created');
-                return $this->redirectToRoute("budgetLines");
+                return $this->redirectToRoute("update_project",['id'=>$budgetLine->getProject()->getId()]);
 
             }else
             {
@@ -83,7 +83,7 @@ class BudgetLineController extends AbstractController
             if ($validator->validateBudgetLine($budgetLine))
             { $manager->flush();
                 $this->addFlash('success', 'BudgetLine updated');
-                return $this->redirectToRoute("budgetLines");
+                return $this->redirectToRoute("update_project",['id'=>$budgetLine->getProject()->getId()]);
 
             }else
             {
@@ -106,9 +106,14 @@ class BudgetLineController extends AbstractController
      */
     public function delete_BudgetLine(EntityManagerInterface $manager,BudgetLine $budgetLine)
     {
-        $manager->remove($budgetLine);
-        $manager->flush();
-        $this->addFlash('success', 'BudgetLine deleted');
-        return $this->redirectToRoute('budgetLines');
+        if($budgetLine->getOperations()->isEmpty())
+        {
+            $manager->remove($budgetLine);
+            $manager->flush();
+            $this->addFlash('success', 'BudgetLine deleted');
+        }else {
+            $this->addFlash('error', 'BudgetLine can not be deleted because it still contains operations !');
+        }
+        return $this->redirectToRoute("update_project",['id'=>$budgetLine->getProject()->getId()]);
     }
 }

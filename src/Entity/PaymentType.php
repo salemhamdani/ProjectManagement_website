@@ -30,7 +30,7 @@ class PaymentType
     private $limitation;
 
     /**
-     * @ORM\OneToMany(targetEntity=PaymentTranche::class, mappedBy="paymenttype", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=PaymentTranche::class, mappedBy="paymentType", orphanRemoval=true)
      */
     private $paymentTranches;
 

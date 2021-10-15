@@ -42,20 +42,21 @@ class PaymentTraceController extends AbstractController
             $paymentTrace->setFile(new File($this->getParameter('traces_directory').'/'.$paymentTrace->getFile()));
             $message='PaymentTrace updated';
         }
-
         $form=$this->createForm(PaymentTraceType::class,$paymentTrace);
         $form->handleRequest($request);
         if($form->isSubmitted()&&$form->isValid()){
             $file=$form->get('file')->getData();
-            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $newFilename = $originalFilename.'-'.uniqid().'.'.$file->guessExtension();
-            try {
-                $file->move(
-                    $this->getParameter('traces_directory'),  $newFilename );
-            } catch (FileException $e) {
-                // ... handle exception if something happens during file upload
+            if($file) {
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename . '-' . uniqid() . '.' . $file->guessExtension();
+                try {
+                    $file->move(
+                        $this->getParameter('traces_directory'), $newFilename);
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $paymentTrace->setFile($newFilename);
             }
-            $paymentTrace->setFile($newFilename);
             $manager->persist($paymentTrace);
             $manager->flush();
             $this->addFlash('success', $message);

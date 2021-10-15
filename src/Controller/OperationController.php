@@ -39,12 +39,14 @@ class OperationController extends AbstractController
     public function update_operation(EntityManagerInterface $manager,Operation $operation,Request $request,Validator $validator){
         $form=$this->createForm(OperationUpType::class,$operation,['project'=>$operation->getBudgetLine()->getProject()->getId()]);
         $form->handleRequest($request);
+        $paymentTraces=$operation->getPaymentTrace();
+        $paymentTranches=$operation->getPaymentTranche();
         if($form->isSubmitted()&&$form->isValid()){
             $manager->persist($operation);
             if ($validator->validateOperation($operation)) {
                 $manager->flush();
                 $this->addFlash('success', 'Operation updated !');
-                return $this->redirectToRoute("operations");
+                return $this->redirectToRoute('update_project',['id'=>$operation->getActivity()->getProject()->getId()]);
             }else {
                 $this->addFlash('error', 'the price of operation exceeded the budget !');
                 return $this->redirectToRoute("updateOperation",['id'=>$operation->getId()]);
@@ -53,7 +55,9 @@ class OperationController extends AbstractController
         return  $this->render('operation/update.html.twig',[
             'title'=>"Operation",
             'form'=>$form->createView(),
-            'editMode'=>$operation->getId() !==null
+            'editMode'=>$operation->getId() !==null,
+            'paymentTraces'=>$paymentTraces,
+            'paymentTranches'=>$paymentTranches
         ]);
     }
     /**
@@ -73,10 +77,10 @@ class OperationController extends AbstractController
             if ($validator->validateOperation($operation)) {
                 $manager->flush();
                 $this->addFlash('success', 'Operation created !');
-                return $this->redirectToRoute("operations");
+                return $this->redirectToRoute('update_project',['id'=>$operation->getActivity()->getProject()->getId()]);
             }else {
                 $this->addFlash('error', 'the price of operation exceeded the budget !');
-                return $this->redirectToRoute("createOperation");
+                return $this->redirectToRoute("createOperation",['id'=>$operation->getActivity()->getProject()->getId() ]);
             }
         }
         return  $this->render('operation/create.html.twig',[
@@ -91,19 +95,16 @@ class OperationController extends AbstractController
      */
     public function delete_operation(EntityManagerInterface $manager,Operation $operation)
     {
-        $manager->remove($operation);
-        $manager->flush();
-        $this->addFlash('success', 'Operation deleted !');
-        return $this->redirectToRoute('operations');
+        $id=$operation->getActivity()->getProject()->getId();
+        if ($operation->getPaymentTrace()->isEmpty() AND $operation->getPaymentTranche()->isEmpty())
+        {
+            $manager->remove($operation);
+            $manager->flush();
+            $this->addFlash('success', 'Operation deleted !');
+        }else {
+            $this->addFlash('error', 'Operation can not be deleted because it still contains payment tranches or payment traces !');
+        }
+        return $this->redirectToRoute('update_project',['id'=>$id]);
     }
-    /**
-     * @Route ("/consult/{id}",name="consultOperation")
-     */
 
-    public function  consult_operation():Response{
-
-         return $this->render('operation/consult.html.twig',[
-
-                ]);
-            }
 }

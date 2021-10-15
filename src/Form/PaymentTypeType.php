@@ -18,7 +18,7 @@ class PaymentTypeType extends AbstractType
                 'attr'=>['placeholder'=>'Enter The Name '
                 ],'required' => true])
             ->add('limitation',NumberType::class,[
-                'attr'=>['placeholder'=>'Enter The Value Of The Limitation'
+                'attr'=>['placeholder'=>'Enter The Value Of The Limitation in percentage'
                 ],'required' => true])
         ;
     }

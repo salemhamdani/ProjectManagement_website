@@ -43,7 +43,7 @@ class ActivityController extends AbstractController
             $manager->persist($activity);
             $manager->flush();
             $this->addFlash('success', 'Activity created !');
-            return $this->redirectToRoute("activities");
+            return $this->redirectToRoute("update_project",['id'=>$activity->getProject()->getId() ]);
         }
         return  $this->render('create.html.twig',[
             'title'=>"Activity",
@@ -63,7 +63,7 @@ class ActivityController extends AbstractController
             $manager->persist($activity);
             $manager->flush();
             $this->addFlash('success', 'Activity updated !');
-            return $this->redirectToRoute("activities");
+            return $this->redirectToRoute("update_project",['id'=>$activity->getProject()->getId() ]);
         }
         return  $this->render('create.html.twig',[
             'title'=>"Activity",
@@ -76,9 +76,16 @@ class ActivityController extends AbstractController
      */
     public function delete_activity(EntityManagerInterface $manager,Activity $activity)
     {
-        $manager->remove($activity);
-        $manager->flush();
-        $this->addFlash('success', 'Activity deleted !');
-        return $this->redirectToRoute('activities');
+        if ($activity->getOperations()->isEmpty())
+        {
+            $manager->remove($activity);
+            $manager->flush();
+            $this->addFlash('success', 'Activity deleted !');
+
+        }else {
+            $this->addFlash('error', 'Activity can not be deleted because it still contains operations !');
+        }
+        return $this->redirectToRoute("update_project",['id'=>$activity->getProject()->getId() ]);
+
     }
 }

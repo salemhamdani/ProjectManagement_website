@@ -91,8 +91,7 @@ class PaymentTrace
 
     public function setFile(string $file): self
     {
-        $this->file = $file;
-
+            $this->file = $file;
         return $this;
     }
 

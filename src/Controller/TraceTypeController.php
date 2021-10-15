@@ -60,9 +60,14 @@ class TraceTypeController extends AbstractController
      */
     public function delete_traceType(EntityManagerInterface $manager,TraceType $traceType)
     {
-        $manager->remove($traceType);
-        $manager->flush();
-        $this->addFlash('success', 'TraceType deleted !');
+        if ($traceType->getPaymentTrace()->isEmpty()){
+            $manager->remove($traceType);
+            $manager->flush();
+            $this->addFlash('success', 'TraceType deleted !');
+        }else {
+            $this->addFlash('error', 'TraceType can not be deleted because it references to payment traces !');
+        }
+
         return $this->redirectToRoute('traceTypes');
     }
 }
